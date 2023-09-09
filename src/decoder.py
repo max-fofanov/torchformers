@@ -1,3 +1,4 @@
+from functools import cached_property
 from torch import nn
 import torch
 
@@ -8,7 +9,7 @@ class Decoder(nn.Module):
 
         self.d_model = d_model
         self.max_len = max_len
-        self.attn_mask = self.create_mask()
+
         self.encoder_output = None
 
         self.attn_1 = nn.MultiheadAttention(embed_dim=d_model, num_heads=1)
@@ -38,6 +39,7 @@ class Decoder(nn.Module):
 
         return x
 
-    def create_mask(self):
+    @cached_property
+    def attn_mask(self) -> torch.Tensor:
         mask = torch.triu(torch.ones(self.max_len, self.max_len), diagonal=1)
         return mask.masked_fill(mask == 1, float("-inf"))

@@ -20,7 +20,7 @@ class Transformer(nn.Module):
         self.linear = nn.Linear(self.d_model, self.max_len)
         self.softmax = nn.Softmax(dim=-1)
 
-    def forward(self, encoder_input, decoder_input):
+    def forward(self, encoder_input: torch.Tensor, decoder_input: torch.Tensor) -> torch.Tensor:
         encoder_output = self.encoders(encoder_input)
         self.inject_encoder_output(encoder_output)
 
