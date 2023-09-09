@@ -1,10 +1,11 @@
+import torch
 from torch import nn
 from .encoder import Encoder
 from .decoder import Decoder
 
 
 class Transformer(nn.Module):
-    def __init__(self, d_model, N, max_len):
+    def __init__(self, d_model: int, N: int, max_len: int):
         super().__init__()
 
         self.d_model = d_model
@@ -28,6 +29,6 @@ class Transformer(nn.Module):
 
         return self.softmax(output)
 
-    def inject_encoder_output(self, encoder_output):
+    def inject_encoder_output(self, encoder_output: torch.Tensor) -> None:
         for decoder in self.decoders:
             decoder.encoder_output = encoder_output

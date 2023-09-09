@@ -3,7 +3,7 @@ import torch
 
 
 class Decoder(nn.Module):
-    def __init__(self, d_model, max_len):
+    def __init__(self, d_model: int, max_len: int):
         super().__init__()
 
         self.d_model = d_model
@@ -22,7 +22,7 @@ class Decoder(nn.Module):
         )
         self.norm_3 = nn.LayerNorm(d_model)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         assert self.encoder_output is not None, "Encoder output should be initialized"
 
         x_att, _ = self.attn_1(x, x, x, attn_mask=self.attn_mask)

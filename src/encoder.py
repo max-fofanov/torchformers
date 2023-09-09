@@ -1,8 +1,9 @@
 from torch import nn
+import torch
 
 
 class Encoder(nn.Module):
-    def __init__(self, d_model):
+    def __init__(self, d_model: int):
         super().__init__()
 
         self.attn = nn.MultiheadAttention(embed_dim=d_model, num_heads=1)
@@ -13,7 +14,7 @@ class Encoder(nn.Module):
         )
         self.norm_2 = nn.LayerNorm(d_model)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         x_att, _ = self.attn(x, x, x)
         x = self.norm_1(x_att + x)
 
