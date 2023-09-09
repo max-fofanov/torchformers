@@ -12,10 +12,14 @@ class Decoder(nn.Module):
 
         self.encoder_output = None
 
-        self.attn_1 = nn.MultiheadAttention(embed_dim=d_model, num_heads=1)
+        self.attn_1 = nn.MultiheadAttention(
+            embed_dim=d_model, num_heads=1, batch_first=True
+        )
         self.norm_1 = nn.LayerNorm(d_model)
 
-        self.attn_2 = nn.MultiheadAttention(embed_dim=d_model, num_heads=1)
+        self.attn_2 = nn.MultiheadAttention(
+            embed_dim=d_model, num_heads=1, batch_first=True
+        )
         self.norm_2 = nn.LayerNorm(d_model)
 
         self.ff = nn.Sequential(

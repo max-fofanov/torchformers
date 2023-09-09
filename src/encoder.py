@@ -6,7 +6,9 @@ class Encoder(nn.Module):
     def __init__(self, d_model: int):
         super().__init__()
 
-        self.attn = nn.MultiheadAttention(embed_dim=d_model, num_heads=1)
+        self.attn = nn.MultiheadAttention(
+            embed_dim=d_model, num_heads=1, batch_first=True
+        )
         self.norm_1 = nn.LayerNorm(d_model)
 
         self.ff = nn.Sequential(
