@@ -1,19 +1,38 @@
-from src import Transformer
+from transformer.transformer import Transformer
 import torch
 
 
+# embedding arity
 d_model = 512
-max_len = 20
-batch_num = 10
+# number of encoder/decoder blocks
+N = 6
+# vocabulary length
+vocab_len = 300
 
-model = Transformer(d_model=d_model, N=6, max_len=max_len)
+model = Transformer(d_model, N, vocab_len).eval()
 
-encoder_input = torch.rand((batch_num, max_len, d_model))
-decoder_input = torch.rand((batch_num, max_len, d_model))
+# single input
+encoder_input = torch.rand((vocab_len, d_model))
+decoder_input = torch.rand((vocab_len, d_model))
 
 output = model(encoder_input, decoder_input)
+assert output.size() == (
+    vocab_len,
+    vocab_len,
+), f"Output shape doesn't match the expected ({vocab_len}, {vocab_len})"
 
-assert torch.allclose(
-    torch.sum(output, dim=-1), torch.tensor(1.0), atol=1e-9
-) and output.size() == (batch_num, max_len, max_len)
+batch_size = 30
+
+# batched input
+encoder_input_batched = torch.rand((batch_size, vocab_len, d_model))
+decoder_input_batched = torch.rand((batch_size, vocab_len, d_model))
+
+output = model(encoder_input_batched, decoder_input_batched)
+assert output.size() == (
+    batch_size,
+    vocab_len,
+    vocab_len,
+), f"Output shape doesn't match the expected ({batch_size}, {vocab_len}, {vocab_len})"
+
+# if all checks pass print OK
 print("OK")

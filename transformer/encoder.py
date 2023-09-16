@@ -2,7 +2,23 @@ from torch import nn
 import torch
 
 
-class Encoder(nn.Module):
+class TransformerEncoder(nn.Module):
+    def __init__(self, d_model: int, N: int):
+        super().__init__()
+
+        self.d_model = d_model
+        self.N = N
+
+        self.encoders = [TransformerEncoderBlock(self.d_model) for _ in range(self.N)]
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        for encoder in self.encoders:
+            x = encoder(x)
+
+        return x
+
+
+class TransformerEncoderBlock(nn.Module):
     def __init__(self, d_model: int):
         super().__init__()
 

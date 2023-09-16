@@ -3,14 +3,31 @@ from torch import nn
 import torch
 
 
-class Decoder(nn.Module):
-    def __init__(self, d_model: int, max_len: int):
+class TransformerDecoder(nn.Module):
+    def __init__(self, d_model: int, N: int, vocab_len: int):
         super().__init__()
 
         self.d_model = d_model
-        self.max_len = max_len
+        self.N = N
+        self.vocab_len = vocab_len
 
-        self.encoder_output = None
+        self.decoders = [
+            TransformerDecoderBlock(self.d_model, self.vocab_len) for _ in range(self.N)
+        ]
+
+    def forward(self, x: torch.Tensor, encoder_output: torch.Tensor) -> torch.Tensor:
+        for decoder in self.decoders:
+            x = decoder(x, encoder_output)
+
+        return x
+
+
+class TransformerDecoderBlock(nn.Module):
+    def __init__(self, d_model: int, vocab_len: int):
+        super().__init__()
+
+        self.d_model = d_model
+        self.vocab_len = vocab_len
 
         self.attn_1 = nn.MultiheadAttention(
             embed_dim=d_model, num_heads=1, batch_first=True
@@ -27,14 +44,12 @@ class Decoder(nn.Module):
         )
         self.norm_3 = nn.LayerNorm(d_model)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        assert self.encoder_output is not None, "Encoder output should be initialized"
-
+    def forward(self, x: torch.Tensor, encoder_output: torch.Tensor) -> torch.Tensor:
         x_att, _ = self.attn_1(x, x, x, attn_mask=self.attn_mask)
         x = self.norm_1(x_att + x)
 
         x_att, _ = self.attn_2(
-            x, self.encoder_output, self.encoder_output, attn_mask=self.attn_mask
+            x, encoder_output, encoder_output, attn_mask=self.attn_mask
         )
         x = self.norm_2(x_att + x)
 
@@ -45,5 +60,5 @@ class Decoder(nn.Module):
 
     @cached_property
     def attn_mask(self) -> torch.Tensor:
-        mask = torch.triu(torch.ones(self.max_len, self.max_len), diagonal=1)
+        mask = torch.triu(torch.ones(self.vocab_len, self.vocab_len), diagonal=1)
         return mask.masked_fill(mask == 1, float("-inf"))
