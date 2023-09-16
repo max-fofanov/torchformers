@@ -5,31 +5,31 @@ This repository contains a PyTorch implementation of the Transformer model as de
 ## Installation
 To install this package from repository simply run
 ```bash
-pip install git+https://github.com/max-fofanov/transformer.git
+pip install git+https://github.com/max-fofanov/torchformers.git
 ```
 ## Training
-```python
-from transformer import Transformer
 
+```python
+from torchformers import Transformer
 
 d_model = 512
 N = 6
 vocab_len = 300
 
 model = Transformer(d_model, N, vocab_len).train()
-data = # training data
-loss_func = # some loss function
-oprimizer = # some optimizer
+data =  # training data
+loss_func =  # some loss function
+oprimizer =  # some optimizer
 
 # train loop
 for epoch in range(1, 10):
     for encoder_input, decoder_input, target in data:
         output = model(encoder_input, decoder_input)
         loss = loss_func(output, target)
-        
+
         loss.backward()
         oprimizer.step()
-    
+
 ```
 ## Inference
 ```python
