@@ -7,5 +7,5 @@ from .utils import (
     CrossAttentionBlock,
     FeedForwardBlock,
     Encoder,
-    EncoderBlock
+    EncoderBlock,
 )

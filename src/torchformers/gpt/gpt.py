@@ -10,10 +10,7 @@ class GPT(nn.Module):
 
         self.decoder = GPTDecoder(d_model, N, vocab_len, num_heads=num_heads)
 
-        self.head = nn.Sequential(
-            nn.Linear(d_model, vocab_len),
-            nn.Softmax(dim=-1)
-        )
+        self.head = nn.Sequential(nn.Linear(d_model, vocab_len), nn.Softmax(dim=-1))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.decoder(x)

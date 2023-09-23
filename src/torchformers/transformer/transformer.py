@@ -12,12 +12,11 @@ class Transformer(nn.Module):
         self.encoder = Encoder(d_model, N, num_heads=num_heads)
         self.decoder = TransformerDecoder(d_model, N, vocab_len, num_heads=num_heads)
 
-        self.head = nn.Sequential(
-            nn.Linear(d_model, vocab_len),
-            nn.Softmax(dim=-1)
-        )
+        self.head = nn.Sequential(nn.Linear(d_model, vocab_len), nn.Softmax(dim=-1))
 
-    def forward(self, encoder_input: torch.Tensor, decoder_input: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self, encoder_input: torch.Tensor, decoder_input: torch.Tensor
+    ) -> torch.Tensor:
         encoder_output = self.encoder(encoder_input)
         decoder_output = self.decoder(decoder_input, encoder_output)
         return self.head(decoder_output)

@@ -8,10 +8,12 @@ class GPTDecoder(nn.Module):
     def __init__(self, d_model: int, N: int, vocab_len: int, num_heads: int = 1):
         super().__init__()
 
-        self.decoders = nn.Sequential(*[
-            GPTDecoderBlock(d_model, vocab_len, num_heads=num_heads)
-            for _ in range(N)
-        ])
+        self.decoders = nn.Sequential(
+            *[
+                GPTDecoderBlock(d_model, vocab_len, num_heads=num_heads)
+                for _ in range(N)
+            ]
+        )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.decoders(x)

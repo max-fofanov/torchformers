@@ -8,7 +8,9 @@ class Encoder(nn.Module):
     def __init__(self, d_model: int, N: int, num_heads: int = 1):
         super().__init__()
 
-        self.encoders = nn.Sequential(*[EncoderBlock(d_model, num_heads=num_heads) for _ in range(N)])
+        self.encoders = nn.Sequential(
+            *[EncoderBlock(d_model, num_heads=num_heads) for _ in range(N)]
+        )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.encoders(x)

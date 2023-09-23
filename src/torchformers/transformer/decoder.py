@@ -23,7 +23,9 @@ class TransformerDecoderBlock(nn.Module):
     def __init__(self, d_model: int, vocab_len: int, num_heads: int = 1):
         super().__init__()
 
-        self.masked_self_att = MaskedSelfAttentionBlock(d_model, vocab_len, num_heads=num_heads)
+        self.masked_self_att = MaskedSelfAttentionBlock(
+            d_model, vocab_len, num_heads=num_heads
+        )
         self.cross_att = CrossAttentionBlock(d_model, num_heads=num_heads)
 
         self.ff = FeedForwardBlock(d_model)

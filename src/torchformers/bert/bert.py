@@ -10,10 +10,7 @@ class BERT(nn.Module):
 
         self.encoder = Encoder(d_model, N, num_heads=num_heads)
 
-        self.head = nn.Sequential(
-            nn.Linear(d_model, num_classes),
-            nn.Softmax(dim=-1)
-        )
+        self.head = nn.Sequential(nn.Linear(d_model, num_classes), nn.Softmax(dim=-1))
 
     def forward(self, x) -> torch.Tensor:
         encoder_output = self.encoder(x)
