@@ -27,7 +27,7 @@ class TransformerEncoderBlock(nn.Module):
         self.ff = FeedForwardBlock(d_model)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.self_attn(x, x, x)
+        x = self.self_att(x, x, x)
         x = self.ff(x)
 
         return x
