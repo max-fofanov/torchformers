@@ -1,19 +1,17 @@
 import torch
 from torch import nn
-from ..shared import TransformerEncoder
-from ..shared import TransformerDecoder
 
 
 class Transformer(nn.Module):
-    def __init__(self, d_model: int, N: int, vocab_len: int):
+    def __init__(self, d_model: int, N: int, vocab_len: int, num_heads: int = 1):
         super().__init__()
 
         self.d_model = d_model
         self.N = N
         self.vocab_len = vocab_len
 
-        self.encoder = TransformerEncoder(d_model, N)
-        self.decoder = TransformerDecoder(d_model, N, vocab_len)
+        self.encoder = TransformerEncoder(d_model, N, num_heads=num_heads)
+        self.decoder = TransformerDecoder(d_model, N, vocab_len, num_heads=num_heads)
 
         self.linear = nn.Linear(d_model, vocab_len)
         self.softmax = nn.Softmax(dim=-1)

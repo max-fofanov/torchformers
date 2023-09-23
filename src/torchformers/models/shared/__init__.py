@@ -1,2 +1,6 @@
-from .decoder import TransformerDecoder, TransformerDecoderBlock
-from .encoder import TransformerEncoder, TransformerEncoderBlock
+from .transformer_blocks import (
+    SelfAttentionBlock,
+    MaskedSelfAttentionBlock,
+    CrossAttentionBlock,
+    FeedForwardBlock,
+)
