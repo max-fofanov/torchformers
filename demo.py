@@ -1,5 +1,5 @@
-from torchformers import Transformer
 import torch
+from torchformers import Transformer
 
 
 # embedding arity

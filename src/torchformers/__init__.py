@@ -1,5 +1,5 @@
-from .models import Transformer
-from .models.shared import (
+from .transformer import Transformer
+from .shared import (
     SelfAttentionBlock,
     MaskedSelfAttentionBlock,
     CrossAttentionBlock,
