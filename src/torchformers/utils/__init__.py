@@ -4,3 +4,4 @@ from .transformer_blocks import (
     CrossAttentionBlock,
     FeedForwardBlock,
 )
+from .encoder import Encoder, EncoderBlock

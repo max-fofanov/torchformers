@@ -1,25 +1,20 @@
 import torch
 from torch import nn
 
-from ..shared import SelfAttentionBlock, FeedForwardBlock
+from ..utils import SelfAttentionBlock, FeedForwardBlock
 
 
-class TransformerEncoder(nn.Module):
+class Encoder(nn.Module):
     def __init__(self, d_model: int, N: int, num_heads: int = 1):
         super().__init__()
 
-        self.encoders = [
-            TransformerEncoderBlock(d_model, num_heads=num_heads) for _ in range(N)
-        ]
+        self.encoders = nn.Sequential(*[EncoderBlock(d_model, num_heads=num_heads) for _ in range(N)])
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        for encoder in self.encoders:
-            x = encoder(x)
-
-        return x
+        return self.encoders(x)
 
 
-class TransformerEncoderBlock(nn.Module):
+class EncoderBlock(nn.Module):
     def __init__(self, d_model: int, num_heads: int = 1):
         super().__init__()
 
@@ -28,6 +23,4 @@ class TransformerEncoderBlock(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.self_att(x)
-        x = self.ff(x)
-
-        return x
+        return self.ff(x)

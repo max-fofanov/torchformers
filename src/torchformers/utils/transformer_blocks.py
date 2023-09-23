@@ -16,17 +16,13 @@ class SelfAttentionBlock(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x_att, _ = self.attn(x, x, x)
-        x = self.norm(x_att + x)
-
-        return x
+        return self.norm(x_att + x)
 
 
 class CrossAttentionBlock(SelfAttentionBlock):
     def forward(self, x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
         x_att, _ = self.attn(x, y, y)
-        x = self.norm(x_att + x)
-
-        return x
+        return self.norm(x_att + x)
 
 
 class MaskedSelfAttentionBlock(SelfAttentionBlock):
@@ -37,9 +33,7 @@ class MaskedSelfAttentionBlock(SelfAttentionBlock):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x_att, _ = self.attn(x, x, x, attn_mask=self.attn_mask)
-        x = self.norm(x_att + x)
-
-        return x
+        return self.norm(x_att + x)
 
     @cached_property
     def attn_mask(self) -> torch.Tensor:
@@ -63,6 +57,4 @@ class FeedForwardBlock(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x_ff = self.ff(x)
-        x = self.norm(x_ff + x)
-
-        return self.ff(x)
+        return self.norm(x_ff + x)
