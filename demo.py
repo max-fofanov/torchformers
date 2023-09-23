@@ -1,4 +1,4 @@
-from torchformers.transformer import Transformer
+from torchformers import Transformer
 import torch
 
 

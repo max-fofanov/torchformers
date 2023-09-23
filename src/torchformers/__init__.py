@@ -1,7 +1,1 @@
-from .transformer import (
-    Transformer,
-    TransformerEncoder,
-    TransformerDecoder,
-    TransformerEncoderBlock,
-    TransformerDecoderBlock,
-)
+from .models import Transformer

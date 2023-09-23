@@ -1,7 +1,7 @@
 import torch
 from torch import nn
-from .encoder import TransformerEncoder
-from .decoder import TransformerDecoder
+from ..shared import TransformerEncoder
+from ..shared import TransformerDecoder
 
 
 class Transformer(nn.Module):
