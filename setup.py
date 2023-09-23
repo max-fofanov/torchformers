@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="torchformers",
-    version="0.1",
+    version="0.1.1",
     package_dir={"": "src"},
     packages=find_packages("src"),
     install_requires=["torch"],
@@ -18,5 +18,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.8',
+    python_requires=">=3.8",
 )
