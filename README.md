@@ -1,6 +1,6 @@
 # 🌟 Torchformers: A Lightweight and Highly Customizable Transformers Library 🌟
 
-## Overview:
+## 🌐 Overview:
 Torchformers is a minimalist, lightweight Python package designed for ease of use, high customization, and efficiency, focusing on providing core Transformer models and their building blocks essential for Natural Language Processing tasks. It is built on top of PyTorch, ensuring optimized implementations of the models.
 
 ## 🔥 Features:
